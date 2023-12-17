@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %} Hasil {% endblock title %}
+{% block content %}
+  <div class="card shadow mt-5">
+    <div class="card-body">
+      {{table|safe}}
+      <div id='pie_json' class='chart'”></div>
+      <script type='text/javascript'>
+          var pie_json = {{pie_json|safe}};
+          Plotly.plot('pie_json',pie_json,{});
+      </script>
+      <div class="pb-2">
+        <div id='bar' class='chart'”></div>
+        <script type='text/javascript'>
+          var bar = {{bar_json|safe}};
+          Plotly.plot('bar',bar,{});
+          </script>
+        </div>
+    </div>
+  </div>
+  <script>
+    const dataTable =  new simpleDatatables.DataTable("#table")
+  </script>
+{% endblock content %}

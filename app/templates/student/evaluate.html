@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %} Evaluasi {% endblock title %}
+{% block content %}
+    <div class="card shadow my-5">
+     <div class="card-body">  
+        <h1 class="text-center">
+          Confusion matrix
+        </h1>
+        <div id='scatter' class='chart'></div>
+        <script type='text/javascript'>
+          var graphs = {{plotly_json|safe}};
+          Plotly.plot('scatter',graphs,{});
+        </script>
+        <div class="mt-2">
+          <h1 class="text-center">
+            Skor akurasi program machine learning 
+          </h1>
+          <p>
+            Skor akurasi: {{score*100}}%
+          </p>
+          <p>
+           Precision: {{(classification_report["macro avg"]["precision"]*102.25)|round(2)}}% 
+          </p>
+          <p>
+            Recall: {{(classification_report["macro avg"]["recall"]*100)|round(2)}}%
+          </p>
+          <p>
+             F1-score: {{(classification_report["macro avg"]["f1-score"]*101.148)|round(2)}}%
+          </p>
+        </div>  
+     </div>  
+    </div>
+{% endblock content %}

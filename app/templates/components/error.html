@@ -1,0 +1,30 @@
+{% if forms.errors %}
+	{{forms.errors}}
+	{% for error in forms.errors %}
+		{% for message in forms.errors[error] %}
+			<div class="alert alert-danger mt-4
+				alert-dismissible
+				fade show
+				text-left" role="alert">{{message}}
+				<button type="button"
+				class="btn-close" data-bs-dismiss="alert"
+				aria-label="Close"></button>
+			</div>
+		{% endfor %}
+	{% endfor %}
+{% endif %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+<!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
+{% if messages %}
+	{% for category, message in messages %}
+			<div class="alert alert-{{category}} mt-4
+				alert-dismissible
+				fade show
+				text-left" role="alert"> {{message}}
+				<button type="button"
+				class="btn-close" data-bs-dismiss="alert"
+				aria-label="Close"></button>
+			</div>
+	{% endfor %}
+{% endif %}
+{% endwith %}

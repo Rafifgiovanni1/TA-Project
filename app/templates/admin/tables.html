@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %} {{title}} {% endblock title %}
+{% block content %}
+    <div class="container my-3">
+      <div class="card shadow">
+        <div class="card-body">          
+          <h1 class="card-title text-center py-3">
+            Data siswa
+          </h1>
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
+            {% if messages %}
+              {% for category, message in messages %}
+                  <div class="alert alert-{{category}} mt-4
+                              alert-dismissible
+                              fade show
+                              text-left" role="alert"> {{message}}
+                              <button type="button"
+                              class="btn-close" data-bs-dismiss="alert"
+                              aria-label="Close"></button>
+                              </div>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+          {% if add_url and current_user.role == "admin" %}
+            <div class="d-inline-block">
+              <a href="{{url_for(add_url)}} " class="btn btn-primary mb-3">{{add_button_text}}</a>
+            </div>
+            <div class="d-inline">
+              <a href="{{url_for(delAll_url)}} " class="btn btn-danger mb-3"  data-bs-toggle="modal" data-bs-target="#exampleModal">{{delAll_button_text}}</a>
+            </div>
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Konfirmasi penghapusan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    Yakin ingin menghapus semua data ?
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <a href="{{url_for('admin.delAll_student')}} " class="btn btn-danger">Hapus</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+          {{tables|safe}}
+            <script>
+                const dataTable =  new simpleDatatables.DataTable("#table")
+            </script>
+        </div>
+      </div>
+    </div>
+{% endblock content %}

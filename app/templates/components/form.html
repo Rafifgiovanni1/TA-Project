@@ -1,0 +1,45 @@
+{% macro createform(forms,label_class="",login=false,edit=false,btn_title="",edit_account=false) %}
+    <form method="post" enctype="multipart/form-data">
+        {% include "components/error.html" %}
+        {% for form in forms if  form.name != "submit" %}
+        <div class="mb-3">
+            {% if form.name != "csrf_token" %}
+            <label for="{{form.name}} " class="form-label {{label_class}} ">
+            {{form.label}}
+            </label>
+            {% endif %}
+            {{form}}
+        </div>
+        {% endfor %}
+        {% if edit %}
+            <div class="d-flex gap-2">
+                <button class="btn btn-primary" type="submit">Simpan edit</button>
+                <button type="button"  class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Hapus</button>
+            </div>
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Konfirmasi penghapusan</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      Yakin ingin menghapus data {{kwargs.data.name}} ?
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                      <a href="{{url_for('admin.delete_student',id=kwargs.data.id)}} " class="btn btn-danger">Hapus</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        {% elif login  %}
+            <button class="btn btn-primary" type="submit">Login</button>
+        {% elif edit_account  %}
+            <button class="btn btn-primary" type="submit">Edit akun</button>
+        {% else %}
+            <button class="btn btn-primary" type="submit">Tambah data</button>
+        {% endif %}
+
+    </form>
+{% endmacro %}

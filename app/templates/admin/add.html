@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %} {{title}} {% endblock title %}
+{% block content %}
+    {% from "components/form.html" import createform %}
+    <div class="container my-5">
+        <div class="card shadow">
+            <div class="card-body m-3">   
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
+                              {% if messages %}
+                                        {% for category, message in messages %}
+                                                  {% if category == "danger" %}
+                                                            <div class="alert alert-danger mt-4
+                                                                      alert-dismissible
+                                                                      fade show
+                                                                      text-left" role="alert"> {{message}}
+                                                                      <button type="button"
+                                                                      class="btn-close" data-bs-dismiss="alert"
+                                                                      aria-label="Close"></button>
+                                                            </div>
+                                                  {% endif %}
+                                        {% endfor %}
+                              {% endif %}
+                    {% endwith %}
+                         
+                {% if edit %}
+                    {{createform(forms,edit=true,data=data,id=id)}}
+                {% else %}
+                    {{createform(forms)}}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}
